@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "rts-api-python"
+version = "0.1.0"
+description = ""
+authors = ["Noah Bresler <noahbresler2002@gmail.com>"]
+readme = "README.md"
+packages = [{include = "rts_api_python"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiohttp = "^3.8.3"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
