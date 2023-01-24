@@ -73,7 +73,7 @@ def api_call(call_type: Literal[API_Call.GET_ROUTES], params: None = None):
     ...
 
 
-def api_call(
+def base_api_call(
     endpoint_url: str = None,
     request_type: str = None,
     call_type: API_Call = None,
@@ -96,7 +96,21 @@ def api_call(
         if not request_type:
             raise Exception("request_type not provided")
 
-    url, headers = build_api_url(endpoint_url, request_type, params, xtime)
+    return build_api_url(
+        endpoint_url, request_type, params, xtime, hash_key=hash_key, api_key=api_key
+    )
+
+
+def api_call(
+    endpoint_url: str = None,
+    request_type: str = None,
+    call_type: API_Call = None,
+    params={},
+    xtime: int = None,
+    hash_key: str = None,
+    api_key: str = None,
+):
+    url, headers = base_api_call(**locals())
 
     req = urllib.request.Request(
         url,
@@ -117,21 +131,9 @@ async def async_api_call(
     hash_key: str = None,
     api_key: str = None,
 ):
-    if not hash_key:
-        raise ValueError("hash_key must be provided")
-    if not api_key:
-        raise ValueError("api_key must be provided")
+    pass_through = {k: v for k, v in locals().items() if k != "session"}
 
-    if call_type:
-        endpoint_url = call_type.value["endpoint_url"]
-        request_type = call_type.value["request_type"]
-    else:
-        if not endpoint_url:
-            raise Exception("endpoint_url not provided")
-        if not request_type:
-            raise Exception("request_type not provided")
-
-    url, headers = build_api_url(endpoint_url, request_type, params, xtime)
+    url, headers = base_api_call(**pass_through)
 
     async with session.get(url, headers=headers) as resp:
         return await resp.json()

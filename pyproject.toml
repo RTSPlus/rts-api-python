@@ -1,15 +1,14 @@
 [tool.poetry]
-name = "rts-api-python"
+name = "rts-api"
 version = "0.1.0"
 description = ""
 authors = ["Noah Bresler <noahbresler2002@gmail.com>"]
 readme = "README.md"
-packages = [{include = "rts_api_python"}]
+packages = [{include = "rts_api"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 aiohttp = "^3.8.3"
-
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
