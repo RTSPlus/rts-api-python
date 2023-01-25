@@ -22,6 +22,11 @@ class API_Call(Enum):
         "request_type": "getpatterns",
     }
 
+    GET_VEHICLES = {
+        "endpoint_url": "/api/v3/getvehicles",
+        "request_type": "getvehicles",
+    }
+
 
 base_url = "https://riderts.app/bustime"
 
