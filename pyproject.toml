@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "rts_api"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.7"
 aiohttp = "^3.8.3"
 
 [tool.poetry.group.dev.dependencies]
