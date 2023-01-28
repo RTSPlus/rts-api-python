@@ -5,6 +5,7 @@ from typing import Literal, TypedDict, overload
 from urllib.parse import urlencode
 from hashlib import sha256
 from aiohttp import ClientSession
+from yarl import URL
 
 import hmac
 import urllib.request
@@ -65,17 +66,8 @@ def build_api_url(
             hash_key.encode("utf-8"), hash_data.encode("utf-8"), sha256
         ).hexdigest(),
     }
-    return f"{base_url}/{endpoint_url}?{encoded_query_params}", headers
 
-
-@overload
-def api_call(endpoint_url: str, request_type: str, params={}):
-    ...
-
-
-@overload
-def api_call(call_type: Literal[API_Call.GET_ROUTES], params: None = None):
-    ...
+    return f"{base_url}{endpoint_url}?{encoded_query_params}", headers
 
 
 def base_api_call(
@@ -104,6 +96,16 @@ def base_api_call(
     return build_api_url(
         endpoint_url, request_type, params, xtime, hash_key=hash_key, api_key=api_key
     )
+
+
+@overload
+def api_call(endpoint_url: str, request_type: str, params={}):
+    ...
+
+
+@overload
+def api_call(call_type: Literal[API_Call.GET_ROUTES], params: None = None):
+    ...
 
 
 def api_call(
@@ -140,5 +142,5 @@ async def async_api_call(
 
     url, headers = base_api_call(**pass_through)
 
-    async with session.get(url, headers=headers) as resp:
+    async with session.get(URL(url, encoded=True), headers=headers) as resp:
         return await resp.json()
