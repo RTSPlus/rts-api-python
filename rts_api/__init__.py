@@ -28,6 +28,26 @@ class API_Call(Enum):
         "request_type": "getvehicles",
     }
 
+    GET_PREDICTIONS = {
+        "endpoint_url": "/api/v3/getpredictions",
+        "request_type": "getpredictions",
+    }
+
+    GET_STOPS = {
+        "endpoint_url": "/api/v3/getstops",
+        "request_type": "getstops",
+    }
+    
+    GET_DETOURS = {
+        "endpoint_url": "/api/v3/getdetours",
+        "request_type": "getdetours",
+    }
+
+    GET_SERVICE_BULLETINS = {
+        "endpoint_url": "/api/v3/getservicebulletins",
+        "request_type": "getservicebulletins",
+    }
+
 
 base_url = "https://riderts.app/bustime"
 
@@ -101,12 +121,6 @@ def base_api_call(
 @overload
 def api_call(endpoint_url: str, request_type: str, params={}):
     ...
-
-
-@overload
-def api_call(call_type: Literal[API_Call.GET_ROUTES], params: None = None):
-    ...
-
 
 def api_call(
     endpoint_url: str = None,
